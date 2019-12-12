@@ -357,6 +357,7 @@ class PaymentHelper
      */
     public function getPaymentNameByResponse($paymentKey, $isPrepayment = false)
     {
+        $this->getLogger(__METHOD__)->debug('Novalnet::getPaymentNameByResponse', $paymentKey);
         // Doing this as the payment key for both the invoice and prepayment are same
         if ($isPrepayment)
         {
