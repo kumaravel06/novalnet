@@ -338,6 +338,7 @@ class PaymentHelper
             $response = curl_exec($curl);
             $errorText = curl_error($curl);
             curl_close($curl);
+            $this->getLogger(__METHOD__)->error('data', $response);
             return [
                 'response' => $response,
                 'error'    => $errorText
@@ -357,7 +358,6 @@ class PaymentHelper
      */
     public function getPaymentNameByResponse($paymentKey, $isPrepayment = false)
     {
-        $this->getLogger(__METHOD__)->error('Novalnet::getPaymentNameByResponse', $paymentKey);
         // Doing this as the payment key for both the invoice and prepayment are same
         if ($isPrepayment)
         {
