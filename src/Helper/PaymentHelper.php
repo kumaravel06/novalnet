@@ -338,7 +338,7 @@ class PaymentHelper
             $response = curl_exec($curl);
             $errorText = curl_error($curl);
             curl_close($curl);
-            $this->getLogger(__METHOD__)->error('data', $response);
+            $this->getLogger(__METHOD__)->error('NNNNNNNNNNNNNNNN', $response);
             return [
                 'response' => $response,
                 'error'    => $errorText
