@@ -338,7 +338,6 @@ class PaymentHelper
             $response = curl_exec($curl);
             $errorText = curl_error($curl);
             curl_close($curl);
-            $this->getLogger(__METHOD__)->error('NNNNNNNNNNNNNNNN', $response);
             return [
                 'response' => $response,
                 'error'    => $errorText
@@ -658,5 +657,12 @@ class PaymentHelper
         }
 
         return $comments;
+    }
+    
+    /* 
+    use to print values in log
+    */
+    public function printValues($data){
+        $this->getLogger(__METHOD__)->error('printed_data', $data);
     }
 }
