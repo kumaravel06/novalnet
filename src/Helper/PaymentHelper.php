@@ -244,7 +244,8 @@ class PaymentHelper
 
         $paymentProperty->typeId = $typeId;
         $paymentProperty->value  = $value;
-
+        $this->printValues($typeId);
+        $this->printValues($value);
         return $paymentProperty;
     }
 
