@@ -243,9 +243,7 @@ class PaymentHelper
         $paymentProperty = pluginApp(\Plenty\Modules\Payment\Models\PaymentProperty::class);
 
         $paymentProperty->typeId = $typeId;
-        $paymentProperty->value  = $value;
-        $this->printValues($typeId);
-        $this->printValues($value);
+        $paymentProperty->value  = (String)$value;
         return $paymentProperty;
     }
 
