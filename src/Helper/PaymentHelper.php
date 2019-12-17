@@ -207,7 +207,7 @@ class PaymentHelper
               'invoice_type'      => $requestData['invoice_type'],
               'invoice_account_holder' => $requestData['invoice_account_holder']
                ];
-           
+        $this->printValues($invoicePrepaymentDetails);   
         $invoiceDetails = json_encode($invoicePrepaymentDetails);
         $paymentProperty     = [];
         $paymentProperty[]   = $this->getPaymentProperty(PaymentProperty::TYPE_BOOKING_TEXT, $bookingText);
@@ -243,7 +243,7 @@ class PaymentHelper
         $paymentProperty = pluginApp(\Plenty\Modules\Payment\Models\PaymentProperty::class);
 
         $paymentProperty->typeId = $typeId;
-        $paymentProperty->value  = (String)$value;
+        $paymentProperty->value  = (String) $value;
         return $paymentProperty;
     }
 
