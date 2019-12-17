@@ -105,7 +105,7 @@ class NovalnetOrderConfirmationDataProvider
 			}
 					$comment .= (string) $comments;
 					$comment .= PHP_EOL;
-					$paymentHelper->printValues($db_details);
+					$paymentHelper->printValues($bank_details);
 		}	
 				  $payment_type = (string)$paymentHelper->getPaymentKeyByMop($payment->mopId);
 				  return $twig->render('Novalnet::NovalnetOrderHistory', ['comments' => html_entity_decode($comment),'barzahlentoken' => $barzhlentoken,'payment_type' => html_entity_decode($payment_type),'barzahlenurl' => $barzahlenurl]);
