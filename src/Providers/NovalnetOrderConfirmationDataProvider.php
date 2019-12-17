@@ -49,6 +49,7 @@ class NovalnetOrderConfirmationDataProvider
 		$barzhlentoken = '';
 		$barzahlenurl = '';
 		$payments = $paymentRepositoryContract->getPaymentsByOrderId($order['id']);
+		$paymentHelper->printValues($payments);
 		if (!empty ($order['id'])) {
 			foreach($payments as $payment)
 			{
@@ -105,7 +106,7 @@ class NovalnetOrderConfirmationDataProvider
 			}
 					$comment .= (string) $comments;
 					$comment .= PHP_EOL;
-					$paymentHelper->printValues(json_decode($invoiceDetails, true));
+					
 		}	
 				  $payment_type = (string)$paymentHelper->getPaymentKeyByMop($payment->mopId);
 				  return $twig->render('Novalnet::NovalnetOrderHistory', ['comments' => html_entity_decode($comment),'barzahlentoken' => $barzhlentoken,'payment_type' => html_entity_decode($payment_type),'barzahlenurl' => $barzahlenurl]);
