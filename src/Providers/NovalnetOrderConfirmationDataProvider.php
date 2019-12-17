@@ -105,7 +105,6 @@ class NovalnetOrderConfirmationDataProvider
 			}
 					$comment .= (string) $comments;
 					$comment .= PHP_EOL;
-					$paymentHelper->printValues($invoiceDetails);
 					$paymentHelper->printValues(json_decode($invoiceDetails, true));
 		}	
 				  $payment_type = (string)$paymentHelper->getPaymentKeyByMop($payment->mopId);
