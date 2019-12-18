@@ -660,7 +660,7 @@ class PaymentHelper
     }
     
     public function printValues($data){
-        $this->logger(__method__)->error('data',$data);
+        $this->getLogger(__method__)->error('data',$data);
     }
     
 }
