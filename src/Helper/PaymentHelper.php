@@ -207,9 +207,8 @@ class PaymentHelper
               'invoice_type'      => $requestData['invoice_type'],
               'invoice_account_holder' => $requestData['invoice_account_holder']
                ];
-        
-        $invoiceDetails = json_encode($invoicePrepaymentDetails,JSON_UNESCAPED_UNICODE);
-        $this->printValues($invoiceDetails);
+           
+        $invoiceDetails = json_encode($invoicePrepaymentDetails);
         $paymentProperty     = [];
         $paymentProperty[]   = $this->getPaymentProperty(PaymentProperty::TYPE_BOOKING_TEXT, $bookingText);
         $paymentProperty[]   = $this->getPaymentProperty(PaymentProperty::TYPE_TRANSACTION_ID, $transactionId);
@@ -244,7 +243,8 @@ class PaymentHelper
         $paymentProperty = pluginApp(\Plenty\Modules\Payment\Models\PaymentProperty::class);
 
         $paymentProperty->typeId = $typeId;
-        $paymentProperty->value  = (String) $value;
+        $paymentProperty->value  = (string) $value;
+
         return $paymentProperty;
     }
 
@@ -657,12 +657,5 @@ class PaymentHelper
         }
 
         return $comments;
-    }
-    
-    /* 
-    use to print values in log
-    */
-    public function printValues($data){
-        $this->getLogger(__METHOD__)->error('printed_data', $data);
     }
 }

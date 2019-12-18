@@ -169,7 +169,7 @@ class PaymentService
         $this->sessionStorage->getPlugin()->setValue('novalnet_checkout_url', $this->getBarzhalenTestMode($nnPaymentData['test_mode']));        
         }
         
-	$invoicePrepaymentDetails =  [
+        $invoicePrepaymentDetails =  [
               'invoice_bankname'  => $nnPaymentData['invoice_bankname'],
               'invoice_bankplace' => $nnPaymentData['invoice_bankplace'],
               'invoice_iban'      => $nnPaymentData['invoice_iban'],
@@ -179,9 +179,9 @@ class PaymentService
               'invoice_account_holder' => $nnPaymentData['invoice_account_holder']
                ];
            
-        $invoiceDetails = json_encode($invoicePrepaymentDetails);    
-	    
-	    
+        $invoiceDetails = json_encode($invoicePrepaymentDetails);
+        
+        
         $additional_info = [
             'currency' => $nnPaymentData['currency'],
             'product' => $nnPaymentData['product'],
@@ -197,15 +197,15 @@ class PaymentService
             'ref_tid'          => $nnPaymentData['tid'],
             'payment_name'     => $nnPaymentData['payment_method'],
             'order_no'         => $nnPaymentData['order_no'],
-            'additional_info'  => !empty($additional_info) ? json_encode($additional_info) : '0',
-	    'comments'         => $invoiceDetails,
+            'additional_info'      => !empty($additional_info) ? json_encode($additional_info) : '0',
+            'comments'      => $invoiceDetails,
         ];
        
         if(in_array($nnPaymentData['payment_id'], ['27', '59']) || (in_array($nnPaymentData['tid_status'], ['85','86','90'])))
             $transactionData['callback_amount'] = 0;    
 
         $this->transactionLogData->saveTransaction($transactionData);
-        $this->paymentHelper->printValues($transactionData);
+        
         if(!$this->isRedirectPayment(strtoupper($nnPaymentData['payment_method']))) {
             $this->sendPostbackCall($nnPaymentData);
         }

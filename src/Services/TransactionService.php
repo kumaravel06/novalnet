@@ -48,9 +48,7 @@ class TransactionService
             $transaction->paymentName         = $transactionData['payment_name'];
             $transaction->additionalInfo      = !empty($transactionData['additional_info']) ? $transactionData['additional_info'] : '0';
             $transaction->comments      	  = $transactionData['comments'];
-            
             $database->save($transaction);
-             $this->getLogger(__METHOD__)->error('Callback table insert success!.', $transaction);
         } catch (\Exception $e) {
             $this->getLogger(__METHOD__)->error('Callback table insert failed!.', $e);
         }

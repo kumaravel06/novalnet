@@ -42,7 +42,8 @@ class TransactionLog extends Model
     public $tid;
     public $paymentName;
     public $additionalInfo;
-    public $comments;   
+    public $comments;
+   
     /**
      * Returns table name to create during build
      *
