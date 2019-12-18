@@ -63,10 +63,10 @@ class TransactionService
      *
      * @return array
      */
-    public function getTransactionData()
+    public function getTransactionData($key, $value)
     {
         $database = pluginApp(DataBase::class);
-        $order    = $database->query(TransactionLog::class)->get();
+        $order    = $database->query(TransactionLog::class)->where($key, '=', $value)->get();
         return $order;
     }
 }
