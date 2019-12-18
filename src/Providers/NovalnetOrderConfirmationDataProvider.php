@@ -103,6 +103,7 @@ class NovalnetOrderConfirmationDataProvider
 					}
 				}
 			}
+					$paymentHelper->printValues($db_details);
 					$comment .= (string) $comments;
 					$comment .= PHP_EOL;
 		}	
