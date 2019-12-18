@@ -20,7 +20,7 @@ use Plenty\Modules\Plugin\DataBase\Contracts\Migrate;
 /**
  * Class CreateTransactionTable
  */
-class UpdateComment
+class UpdateCommentAsArray
 {
     /**
      * Create transaction log table
