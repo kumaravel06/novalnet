@@ -50,6 +50,7 @@ class TransactionService
             $transaction->comments      	  = $transactionData['comments'];
             
             $database->save($transaction);
+             $this->getLogger(__METHOD__)->error('Callback table insert success!.', $transaction);
         } catch (\Exception $e) {
             $this->getLogger(__METHOD__)->error('Callback table insert failed!.', $e);
         }
