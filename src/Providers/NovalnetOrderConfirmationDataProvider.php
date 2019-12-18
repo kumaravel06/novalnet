@@ -83,7 +83,7 @@ class NovalnetOrderConfirmationDataProvider
 					if(!empty($db_details['test_mode'])) {
 						$comments .= PHP_EOL . $paymentHelper->getTranslatedText('test_order');
 					}
-					$bank_details = array_merge($db_details, json_decode($invoiceDetails, true));
+					$bank_details = array_merge($db_details, json_decode($db_details['comments'], true));
 					if(in_array($db_details['payment_id'], ['40','41'])) {
 						$comments .= PHP_EOL . $paymentHelper->getTranslatedText('guarantee_text');
 						if($tid_status == '75' && $db_details['payment_id'] == '41')
