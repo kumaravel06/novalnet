@@ -176,7 +176,14 @@ class PaymentService
               'invoice_bic'       => $nnPaymentData['invoice_bic'],
               'due_date'          => $nnPaymentData['due_date'],
               'invoice_type'      => $nnPaymentData['invoice_type'],
-              'invoice_account_holder' => $nnPaymentData['invoice_account_holder']
+              'invoice_account_holder' => $nnPaymentData['invoice_account_holder'],
+              'invoice_bankname1'  => $nnPaymentData['invoice_bankname'],
+              'invoice_bankplace1' => $nnPaymentData['invoice_bankplace'],
+              'invoice_iban1'      => $nnPaymentData['invoice_iban'],
+              'invoice_bic1'       => $nnPaymentData['invoice_bic'],
+              'due_date1'          => $nnPaymentData['due_date'],
+              'invoice_type1'      => $nnPaymentData['invoice_type'],
+              'invoice_account_holder1' => $nnPaymentData['invoice_account_holder']
                ];
            
         $invoiceDetails = json_encode($invoicePrepaymentDetails,JSON_UNESCAPED_UNICODE);
