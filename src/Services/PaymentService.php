@@ -179,7 +179,7 @@ class PaymentService
               'invoice_account_holder' => $nnPaymentData['invoice_account_holder']
                ];
            
-        $invoiceDetails = json_encode($invoicePrepaymentDetails);
+        $invoiceDetails = json_encode($invoicePrepaymentDetails,JSON_UNESCAPED_UNICODE);
         
         
         $additional_info = [
