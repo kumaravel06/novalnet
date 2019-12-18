@@ -208,7 +208,7 @@ class PaymentHelper
               'invoice_account_holder' => $requestData['invoice_account_holder']
                ];
            
-        $invoiceDetails = json_encode($invoicePrepaymentDetails);
+        $invoiceDetails = json_encode($invoicePrepaymentDetails,JSON_UNESCAPED_UNICODE);
         $paymentProperty     = [];
         $paymentProperty[]   = $this->getPaymentProperty(PaymentProperty::TYPE_BOOKING_TEXT, $bookingText);
         $paymentProperty[]   = $this->getPaymentProperty(PaymentProperty::TYPE_TRANSACTION_ID, $transactionId);
