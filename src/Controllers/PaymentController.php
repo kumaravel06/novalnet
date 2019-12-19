@@ -152,6 +152,9 @@ class PaymentController extends Controller
             }
        }
         $serverRequestData = $this->paymentService->getRequestParameters($this->basketRepository->load(), $requestData['paymentKey']);
+        $this->paymentHelper->printValues($serverRequestData);
+        $this->paymentService->pushNotification('name is empty', 'error', 100);
+        return $this->response->redirectTo('checkout');
         $this->sessionStorage->getPlugin()->setValue('nnPaymentData', $serverRequestData['data']);
         $guarantee_payments = [ 'NOVALNET_SEPA', 'NOVALNET_INVOICE' ];        
         if($requestData['paymentKey'] == 'NOVALNET_CC') {
