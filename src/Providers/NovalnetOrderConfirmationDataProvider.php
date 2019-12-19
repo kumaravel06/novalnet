@@ -55,10 +55,6 @@ class NovalnetOrderConfirmationDataProvider
 				$properties = $payment->properties;
 				foreach($properties as $property)
 				{
-				if ($property->typeId == 21) 
-				{
-				$invoiceDetails = $property->value;
-				}
 				if ($property->typeId == 30)
 				{
 				$tid_status = $property->value;
@@ -103,7 +99,6 @@ class NovalnetOrderConfirmationDataProvider
 					}
 				}
 			}
-					$paymentHelper->printValues($db_details);
 					$comment .= (string) $comments;
 					$comment .= PHP_EOL;
 		}	
