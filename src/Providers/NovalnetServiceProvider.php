@@ -389,10 +389,6 @@ class NovalnetServiceProvider extends ServiceProvider
 			$properties = $payment->properties;
 			foreach($properties as $property)
 			{
-			if ($property->typeId == 21) 
-			{
-			$invoiceDetails = $property->value;
-			}
 			if ($property->typeId == 22)
 			{
 			$cashpayment_comments = $property->value;
@@ -409,7 +405,7 @@ class NovalnetServiceProvider extends ServiceProvider
 		if (in_array($paymentKey, ['NOVALNET_INVOICE', 'NOVALNET_PREPAYMENT', 'NOVALNET_CC', 'NOVALNET_SEPA', 'NOVALNET_CASHPAYMENT', 'NOVALNET_SOFORT', 'NOVALNET_IDEAL', 'NOVALNET_EPS', 'NOVALNET_GIROPAY', 'NOVALNET_PAYPAL', 'NOVALNET_PRZELEWY']) && !empty($db_details['plugin_version'])
 		) {
 		try {
-				$bank_details = array_merge($db_details, json_decode($invoiceDetails, true));
+				$bank_details = array_merge($db_details, json_decode($db_details['comments'], true));
 				$comments = '';
 				$comments .= PHP_EOL . $paymentHelper->getTranslatedText('nn_tid') . $db_details['tid'];
 				if(!empty($db_details['test_mode'])) {
