@@ -386,7 +386,7 @@ class PaymentService
             $paymentRequestData['referrer_id'] = $referrerId;
         }
         $this->paymentHelper->printValues($paymentRequestData);
-        $notificationMessage = $paymentHelper->getTranslatedText('doberror');
+        $notificationMessage = $this->paymentHelper->getTranslatedText('doberror');
         $this->pushNotification($notificationMessage, 'error', 100);
         return $this->response->redirectTo('checkout');
         $url = $this->getPaymentData($paymentKey, $paymentRequestData);
