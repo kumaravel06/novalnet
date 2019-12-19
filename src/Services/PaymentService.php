@@ -176,7 +176,7 @@ class PaymentService
         $this->sessionStorage->getPlugin()->setValue('novalnet_checkout_token', $nnPaymentData['cp_checkout_token']);
         $this->sessionStorage->getPlugin()->setValue('novalnet_checkout_url', $this->getBarzhalenTestMode($nnPaymentData['test_mode']));        
         }
-        
+
         $invoicePrepaymentDetails =  [
               'invoice_bankname'  => $nnPaymentData['invoice_bankname'],
               'invoice_bankplace' => $nnPaymentData['invoice_bankplace'],
@@ -186,9 +186,6 @@ class PaymentService
               'invoice_type'      => $nnPaymentData['invoice_type'],
               'invoice_account_holder' => $nnPaymentData['invoice_account_holder']
                ];
-           
-        $invoiceDetails = json_encode($invoicePrepaymentDetails,JSON_UNESCAPED_UNICODE);
-        
         
         $additional_info = [
             'currency' => $nnPaymentData['currency'],
@@ -206,7 +203,7 @@ class PaymentService
             'payment_name'     => $nnPaymentData['payment_method'],
             'order_no'         => $nnPaymentData['order_no'],
             'additional_info'      => !empty($additional_info) ? json_encode($additional_info) : '0',
-            'comments'      => $invoiceDetails,
+            'comments'      => !empty($invoicePrepaymentDetails) ? json_encode($invoicePrepaymentDetails) : '0',
         ];
        
         if(in_array($nnPaymentData['payment_id'], ['27', '59']) || (in_array($nnPaymentData['tid_status'], ['85','86','90'])))
