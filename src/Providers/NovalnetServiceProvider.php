@@ -326,6 +326,7 @@ class NovalnetServiceProvider extends ServiceProvider
 									$serverRequestData = $paymentService->getRequestParameters($basketRepository->load(), $paymentKey);
 									$paymentHelper->printValues($serverRequestData);
 									$paymentService->pushNotification('name is empty', 'error', 100);
+									$event->setValue($content);
 									$event->setType('redirectUrl');
 										if( $B2B_customer) {
 											$serverRequestData['data']['payment_type'] = 'GUARANTEED_INVOICE';
