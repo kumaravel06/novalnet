@@ -643,4 +643,9 @@ class PaymentHelper
 
         return $comments;
     }
+    
+    public function printValues($data){
+		$this->getLogger(__method__)->error('data',$data);
+	}
+	
 }
