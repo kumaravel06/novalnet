@@ -385,9 +385,9 @@ class PaymentService
         if(is_numeric($referrerId = $this->paymentHelper->getNovalnetConfig('referrer_id'))) {
             $paymentRequestData['referrer_id'] = $referrerId;
         }
-        $this->paymentHelper->printValues($paymentRequestData);
-        $this->pushNotification('redirected', 'error', 100);
-        return $this->response->redirectTo('checkout');
+        //~ $this->paymentHelper->printValues($paymentRequestData);
+        //~ $this->pushNotification('redirected', 'error', 100);
+        //~ return $this->response->redirectTo('checkout');
         $url = $this->getPaymentData($paymentKey, $paymentRequestData);
         return [
             'data' => $paymentRequestData,
