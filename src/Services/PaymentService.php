@@ -386,7 +386,7 @@ class PaymentService
             $paymentRequestData['referrer_id'] = $referrerId;
         }
         $this->paymentHelper->printValues($firstName);
-        if(empty($firstName)){
+        if(!empty($firstName)){
 			$this->paymentHelper->printValues($paymentRequestData);
 			$this->pushNotification('FirstName and Last name is empty', 'error', 100);
 			return $this->response->redirectTo('checkout');
