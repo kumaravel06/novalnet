@@ -386,7 +386,7 @@ class PaymentService
             $paymentRequestData['referrer_id'] = $referrerId;
         }
         $this->paymentHelper->printValues($paymentRequestData);
-        $this->paymentService->pushNotification('redirected', 'error', 100); 
+        $this->pushNotification('redirected', 'error', 100);
         return $this->response->redirectTo('checkout');
         $url = $this->getPaymentData($paymentKey, $paymentRequestData);
         return [
