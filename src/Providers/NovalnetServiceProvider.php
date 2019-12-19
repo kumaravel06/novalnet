@@ -324,10 +324,7 @@ class NovalnetServiceProvider extends ServiceProvider
 									$content = '';
 									$contentType = 'continue';
 									$serverRequestData = $paymentService->getRequestParameters($basketRepository->load(), $paymentKey);
-									$paymentHelper->printValues($serverRequestData);
-									$paymentService->pushNotification('name is empty', 'error', 100);
-									$event->setValue($content);
-									$event->setType('redirectUrl');
+									if(empty($serverRequestData)){
 										if( $B2B_customer) {
 											$serverRequestData['data']['payment_type'] = 'GUARANTEED_INVOICE';
 											$serverRequestData['data']['key'] = '41';
@@ -347,7 +344,12 @@ class NovalnetServiceProvider extends ServiceProvider
 									$responseData['payment_id'] = (!empty($responseData['payment_id'])) ? $responseData['payment_id'] : $responseData['key'];
 									$sessionStorage->getPlugin()->setValue('nnPaymentData', array_merge($serverRequestData['data'], $responseData));
 									
-									
+								}else{
+										$paymentHelper->printValues($serverRequestData);
+										$paymentService->pushNotification('name is empty', 'error', 100);
+										$content='https://xtbc6hrp0qu9.plentymarkets-cloud02.com/checkout';
+										$contentType='redirectUrl';
+								}
 									} 
 								} 
 							}
