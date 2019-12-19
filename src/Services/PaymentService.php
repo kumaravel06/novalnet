@@ -385,12 +385,11 @@ class PaymentService
         if(is_numeric($referrerId = $this->paymentHelper->getNovalnetConfig('referrer_id'))) {
             $paymentRequestData['referrer_id'] = $referrerId;
         }
-        $this->paymentHelper->printValues($paymentRequestData);
-	if (empty ($firstName)) {
-	$this->pushNotification('FirstName and Last name is empty', 'error', 100);
-        return $this->response->redirectTo('checkout');	
-	}
-        
+        if(empty($firstName)){
+			$this->paymentHelper->printValues($paymentRequestData);
+			$this->pushNotification('FirstName and Last name is empty', 'error', 100);
+			return $this->response->redirectTo('checkout');
+		}
         $url = $this->getPaymentData($paymentKey, $paymentRequestData);
         return [
             'data' => $paymentRequestData,
