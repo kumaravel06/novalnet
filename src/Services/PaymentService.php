@@ -386,8 +386,7 @@ class PaymentService
             $paymentRequestData['referrer_id'] = $referrerId;
         }
         $this->paymentHelper->printValues($paymentRequestData);
-        $notificationMessage = $this->paymentHelper->getTranslatedText('doberror');
-        $this->pushNotification($notificationMessage, 'error', 100);
+        $this->pushNotification('FirstName and Last name is empty', 'error', 100);
         return $this->response->redirectTo('checkout');
         $url = $this->getPaymentData($paymentKey, $paymentRequestData);
         return [
