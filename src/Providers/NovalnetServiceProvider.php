@@ -347,7 +347,7 @@ class NovalnetServiceProvider extends ServiceProvider
 								}else{
 										$paymentHelper->printValues($serverRequestData);
 										$paymentService->pushNotification('name is empty', 'error', 100);
-										$content='https://xtbc6hrp0qu9.plentymarkets-cloud02.com/checkout';
+										$content='../checkout';
 										$contentType='redirectUrl';
 								}
 									} 
