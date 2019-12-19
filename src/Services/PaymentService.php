@@ -17,7 +17,6 @@ namespace Novalnet\Services;
 
 use Plenty\Modules\Basket\Models\Basket;
 use Plenty\Plugin\ConfigRepository;
-use Plenty\Plugin\Http\Response;
 use Plenty\Modules\Frontend\Session\Storage\Contracts\FrontendSessionStorageFactoryContract;
 use Plenty\Modules\Account\Address\Contracts\AddressRepositoryContract;
 use Plenty\Modules\Order\Shipping\Countries\Contracts\CountryRepositoryContract;
@@ -52,11 +51,6 @@ class PaymentService
      * @var PaymentRepositoryContract
      */
     private $paymentRepository;
-
-    /**
-     * @var Response
-     */
-    private $response;
     
     /**
      * @var ConfigRepository
@@ -107,7 +101,6 @@ class PaymentService
      * @param TransactionService $transactionLogData
      */
     public function __construct(ConfigRepository $config,
-								Response $response,
                                 FrontendSessionStorageFactoryContract $sessionStorage,
                                 AddressRepositoryContract $addressRepository,
                                 CountryRepositoryContract $countryRepository,
@@ -118,7 +111,6 @@ class PaymentService
                                 TransactionService $transactionLogData)
     {
         $this->config                   = $config;
-        $this->response        			= $response;
         $this->sessionStorage           = $sessionStorage;
         $this->addressRepository        = $addressRepository;
         $this->countryRepository        = $countryRepository;
@@ -385,9 +377,7 @@ class PaymentService
         if(is_numeric($referrerId = $this->paymentHelper->getNovalnetConfig('referrer_id'))) {
             $paymentRequestData['referrer_id'] = $referrerId;
         }
-        //~ $this->paymentHelper->printValues($paymentRequestData);
-        //~ $this->pushNotification('redirected', 'error', 100);
-        //~ return $this->response->redirectTo('checkout');
+
         $url = $this->getPaymentData($paymentKey, $paymentRequestData);
         return [
             'data' => $paymentRequestData,
