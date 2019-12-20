@@ -204,10 +204,6 @@ class PaymentHelper
         $paymentProperty[]   = $this->getPaymentProperty(PaymentProperty::TYPE_ORIGIN, Payment::ORIGIN_PLUGIN);
         $paymentProperty[]   = $this->getPaymentProperty(PaymentProperty::TYPE_EXTERNAL_TRANSACTION_STATUS, $requestData['tid_status']);
         
-        if ($requestData['payment_id'] == '59') {
-        $cashpayment_comments = $this->getCashPaymentComments($requestData);
-        $paymentProperty[]   = $this->getPaymentProperty(PaymentProperty::TYPE_PAYMENT_TEXT, $cashpayment_comments);    
-        }
         $payment->properties = $paymentProperty;
         $paymentObj = $this->paymentRepository->createPayment($payment);
 
