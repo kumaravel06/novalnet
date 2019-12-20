@@ -207,7 +207,7 @@ class PaymentService
             $transactionData['callback_amount'] = 0;
 
         $this->transactionLogData->saveTransaction($transactionData);
-        $this->paymentHelper->printValues($this->isRedirectPayment(strtoupper($nnPaymentData['payment_method'])));
+
         if(!$this->isRedirectPayment(strtoupper($nnPaymentData['payment_method']))) {
             $this->sendPostbackCall($nnPaymentData);
         }
@@ -471,7 +471,7 @@ class PaymentService
         {
             $postbackData['invoice_ref'] = 'BNR-' . $requestData['product'] . '-' . $requestData['order_no'];
         }
-        $this->paymentHelper->printValues($postbackData);
+        
         $this->paymentHelper->executeCurl($postbackData, NovalnetConstants::PAYPORT_URL);
     }
     
