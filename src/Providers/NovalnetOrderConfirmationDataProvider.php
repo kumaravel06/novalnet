@@ -59,10 +59,6 @@ class NovalnetOrderConfirmationDataProvider
 				{
 				$tid_status = $property->value;
 				}
-				if ($property->typeId == 22)
-				{
-				$cashpayment_comments = $property->value;
-				}
 				}
 				if($paymentHelper->getPaymentKeyByMop($payment->mopId))
 				{
@@ -95,7 +91,7 @@ class NovalnetOrderConfirmationDataProvider
 						$comments .= PHP_EOL . $paymentService->getInvoicePrepaymentComments($bank_details);
 					}
 					if($db_details['payment_id'] == '59' ) {
-						$comments .= $cashpayment_comments;
+						$comments .= $db_details['comments'];
 					}
 				}
 			}
