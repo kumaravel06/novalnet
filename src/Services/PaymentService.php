@@ -168,7 +168,7 @@ class PaymentService
         $this->sessionStorage->getPlugin()->setValue('novalnet_checkout_token', $nnPaymentData['cp_checkout_token']);
         $this->sessionStorage->getPlugin()->setValue('novalnet_checkout_url', $this->getBarzhalenTestMode($nnPaymentData['test_mode']));        
         }
-		$this->paymentHelper->printValues($nnPaymentData);
+		
 		if (in_array($nnPaymentData['payment_id'], array(27,41))) {
 			$invoicePrepaymentDetails =  [
 				  'invoice_bankname'  => $nnPaymentData['invoice_bankname'],
@@ -471,6 +471,7 @@ class PaymentService
         {
             $postbackData['invoice_ref'] = 'BNR-' . $requestData['product'] . '-' . $requestData['order_no'];
         }
+        $this->paymentHelper->printValues($postbackData);
         $this->paymentHelper->executeCurl($postbackData, NovalnetConstants::PAYPORT_URL);
     }
     
