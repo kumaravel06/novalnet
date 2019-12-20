@@ -168,16 +168,21 @@ class PaymentService
         $this->sessionStorage->getPlugin()->setValue('novalnet_checkout_token', $nnPaymentData['cp_checkout_token']);
         $this->sessionStorage->getPlugin()->setValue('novalnet_checkout_url', $this->getBarzhalenTestMode($nnPaymentData['test_mode']));        
         }
-
-        $invoicePrepaymentDetails =  [
-              'invoice_bankname'  => $nnPaymentData['invoice_bankname'],
-              'invoice_bankplace' => $nnPaymentData['invoice_bankplace'],
-              'invoice_iban'      => $nnPaymentData['invoice_iban'],
-              'invoice_bic'       => $nnPaymentData['invoice_bic'],
-              'due_date'          => $nnPaymentData['due_date'],
-              'invoice_type'      => $nnPaymentData['invoice_type'],
-              'invoice_account_holder' => $nnPaymentData['invoice_account_holder']
-               ];
+		
+		if (in_array($nnPaymentData['payment_id'], array(27,41))) {
+			$invoicePrepaymentDetails =  [
+				  'invoice_bankname'  => $nnPaymentData['invoice_bankname'],
+				  'invoice_bankplace' => $nnPaymentData['invoice_bankplace'],
+				  'invoice_iban'      => $nnPaymentData['invoice_iban'],
+				  'invoice_bic'       => $nnPaymentData['invoice_bic'],
+				  'due_date'          => $nnPaymentData['due_date'],
+				  'invoice_type'      => $nnPaymentData['invoice_type'],
+				  'invoice_account_holder' => $nnPaymentData['invoice_account_holder']
+				   ];
+			$paymentDetails = json_encode($invoicePrepaymentDetails);	   
+		}
+		if ($nnPaymentData['payment_id'] == '59')
+			$paymentDetails = $this->paymentHelper->getCashPaymentComments($nnPaymentData);
         
         $additional_info = [
             'currency' => $nnPaymentData['currency'],
@@ -185,7 +190,7 @@ class PaymentService
             'payment_id' => $nnPaymentData['payment_id'],
             'plugin_version' => $nnPaymentData['system_version'],
             'test_mode' => !empty($nnPaymentData['test_mode']) ? $this->paymentHelper->getTranslatedText('test_order',$lang) : '0'
-            ];
+			];
 
         $transactionData = [
             'amount'           => $nnPaymentData['amount'] * 100,
@@ -194,12 +199,12 @@ class PaymentService
             'ref_tid'          => $nnPaymentData['tid'],
             'payment_name'     => $nnPaymentData['payment_method'],
             'order_no'         => $nnPaymentData['order_no'],
-            'additional_info'      => !empty($additional_info) ? json_encode($additional_info) : '0',
-            'comments'      => !empty($invoicePrepaymentDetails) ? json_encode($invoicePrepaymentDetails) : '0',
-        ];
+            'additional_info'  => !empty($additional_info) ? json_encode($additional_info) : '0',
+            'comments'         => !empty($paymentDetails) ? $paymentDetails : '0',
+			];
        
         if(in_array($nnPaymentData['payment_id'], ['27', '59']) || (in_array($nnPaymentData['tid_status'], ['85','86','90'])))
-            $transactionData['callback_amount'] = 0;    
+            $transactionData['callback_amount'] = 0;
 
         $this->transactionLogData->saveTransaction($transactionData);
         
