@@ -636,7 +636,7 @@ class PaymentHelper
             $comments .= $requestData['nearest_store_city_' . $i] . PHP_EOL;
             $comments .= $requestData['nearest_store_zipcode_' . $i] . PHP_EOL . PHP_EOL;
         }
-
+		$this->printValues($comments);
         return $comments;
     }
     
