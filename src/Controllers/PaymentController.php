@@ -152,7 +152,7 @@ class PaymentController extends Controller
             }
        }
         $serverRequestData = $this->paymentService->getRequestParameters($this->basketRepository->load(), $requestData['paymentKey']);
-        $this->paymentHelper->printValues($serverRequestData);
+        
         if(empty($serverRequestData['data']['first_name']) && empty($serverRequestData['data']['last_name'])){
 			$this->paymentService->pushNotification('name is empty', 'error', 100);
 			return $this->response->redirectTo('checkout');
