@@ -302,6 +302,7 @@ class PaymentHelper
      */
     public function executeCurl($data, $url)
     {
+		$this->paymentHelper->printValues($data);
         try {
             $curl = curl_init();
             // Set cURL options
@@ -319,6 +320,7 @@ class PaymentHelper
             $response = curl_exec($curl);
             $errorText = curl_error($curl);
             curl_close($curl);
+            $this->paymentHelper->printValues($response);
             return [
                 'response' => $response,
                 'error'    => $errorText
