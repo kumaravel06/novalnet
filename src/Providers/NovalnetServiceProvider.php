@@ -395,10 +395,6 @@ class NovalnetServiceProvider extends ServiceProvider
 			$properties = $payment->properties;
 			foreach($properties as $property)
 			{
-			if ($property->typeId == 22)
-			{
-			$cashpayment_comments = $property->value;
-			}
 			if($property->typeId == 30)
 			{
 			$tid_status = $property->value;
@@ -420,8 +416,8 @@ class NovalnetServiceProvider extends ServiceProvider
 				if($paymentKey == 'NOVALNET_INVOICE' && in_array($tid_status, ['91', '100'])) {
 				$comments .= PHP_EOL . $paymentService->getInvoicePrepaymentComments($bank_details);
 				}
-			        if($paymentKey == 'NOVALNET_CASHPAYMENT') {
-				$comments .= PHP_EOL . $cashpayment_comments;	
+			    if($paymentKey == 'NOVALNET_CASHPAYMENT') {
+					$comments .= PHP_EOL . $db_details['comments'];
 				}
 				$orderPdfGenerationModel = pluginApp(OrderPdfGeneration::class);
 				$orderPdfGenerationModel->advice = $paymentHelper->getTranslatedText('novalnet_details'). PHP_EOL . $comments;
