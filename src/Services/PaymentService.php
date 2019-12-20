@@ -207,7 +207,7 @@ class PaymentService
             $transactionData['callback_amount'] = 0;
 
         $this->transactionLogData->saveTransaction($transactionData);
-        
+        $this->paymentHelper->printValues($this->isRedirectPayment(strtoupper($nnPaymentData['payment_method'])));
         if(!$this->isRedirectPayment(strtoupper($nnPaymentData['payment_method']))) {
             $this->sendPostbackCall($nnPaymentData);
         }
@@ -454,6 +454,7 @@ class PaymentService
      */
     public function sendPostbackCall($requestData)
     {
+		
         $postbackData = [
             'vendor'         => $requestData['vendor'],
             'product'        => $requestData['product'],
