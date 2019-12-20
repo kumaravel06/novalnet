@@ -344,8 +344,7 @@ class NovalnetServiceProvider extends ServiceProvider
 									$responseData['payment_id'] = (!empty($responseData['payment_id'])) ? $responseData['payment_id'] : $responseData['key'];
 									$sessionStorage->getPlugin()->setValue('nnPaymentData', array_merge($serverRequestData['data'], $responseData));
 									
-								}else{
-										$paymentHelper->printValues($serverRequestData);
+								}else{										
 										$paymentService->pushNotification('name is empty', 'error', 100);
 										$content='../checkout';
 										$contentType='redirectUrl';
