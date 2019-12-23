@@ -208,6 +208,20 @@ class NovalnetServiceProvider extends ServiceProvider
             '\Novalnet\Procedures\RefundEventProcedure@run'
         );
         
+        // Event for Onhold - Refund Process
+        $refundProcedureTitle = [
+            'de' =>  'Novalnet | Muster',
+            'en' =>  'Novalnet | Sample',
+        ];
+        
+        // Event for Sample - Process
+        $eventProceduresService->registerProcedure(
+            'Novalnet',
+            ProcedureEntry::EVENT_TYPE_ORDER,
+            $refundProcedureTitle,
+            '\Novalnet\Procedures\SampleEventProcedure@run'
+        );
+        
         // Listen for the event that gets the payment method content
         $eventDispatcher->listen(GetPaymentMethodContent::class,
                 function(GetPaymentMethodContent $event) use($config, $paymentHelper, $addressRepository, $paymentService, $basketRepository, $paymentMethodService, $sessionStorage, $twig)
