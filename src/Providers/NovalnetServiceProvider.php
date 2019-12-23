@@ -209,7 +209,7 @@ class NovalnetServiceProvider extends ServiceProvider
         );
         
         // Event for Onhold - Refund Process
-        $refundProcedureTitle = [
+        $sampleProcedureTitle = [
             'de' =>  'Novalnet | Muster',
             'en' =>  'Novalnet | Sample',
         ];
@@ -218,7 +218,7 @@ class NovalnetServiceProvider extends ServiceProvider
         $eventProceduresService->registerProcedure(
             'Novalnet',
             ProcedureEntry::EVENT_TYPE_ORDER,
-            $refundProcedureTitle,
+            $sampleProcedureTitle,
             '\Novalnet\Procedures\SampleEventProcedure@run'
         );
         
