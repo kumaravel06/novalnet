@@ -32,8 +32,7 @@ use Novalnet\Models\TransactionLog;
 use Plenty\Modules\Payment\History\Contracts\PaymentHistoryRepositoryContract;
 use Plenty\Modules\Payment\History\Models\PaymentHistory as PaymentHistoryModel;
 use Plenty\Modules\Payment\Contracts\PaymentRepositoryContract;
-use Plenty\Plugin\Http\Request;
-use Plenty\Plugin\Http\Response;
+use Plenty\Plugin\Http;
 
 
 /**
@@ -76,16 +75,6 @@ class PaymentService
      */
     private $countryRepository;
 
-	/**
-     * @var Request
-     */
-    private $request;
-    
-	/**
-     * @var Response
-     */
-    private $response;
-    
     /**
      * @var WebstoreHelper
      */
@@ -122,9 +111,7 @@ class PaymentService
                                 PaymentHelper $paymentHelper,
                                 PaymentHistoryRepositoryContract $paymentHistoryRepo,
                                 PaymentRepositoryContract $paymentRepository,
-                                TransactionService $transactionLogData,
-                                Request $request,
-                                Response $response)
+                                TransactionService $transactionLogData)
     {
         $this->config                   = $config;
         $this->sessionStorage           = $sessionStorage;
@@ -135,8 +122,6 @@ class PaymentService
         $this->paymentRepository        = $paymentRepository;
         $this->paymentHelper            = $paymentHelper;  
         $this->transactionLogData       = $transactionLogData;
-        $this->request         			= $request;
-        $this->response        			= $response;
     }
     
     /**
@@ -315,10 +300,11 @@ class PaymentService
      *
      * @param Basket $basket
      * @param PaymentKey $paymentKey
+     * @param Http $http
      *
      * @return array
      */
-    public function getRequestParameters(Basket $basket, $paymentKey = '')
+    public function getRequestParameters(Basket $basket, $paymentKey = '',Http $http)
     {
         $billingAddressId = $basket->customerInvoiceAddressId;
         $address = $this->addressRepository->findAddressById($billingAddressId);
@@ -397,9 +383,8 @@ class PaymentService
         if(is_numeric($referrerId = $this->paymentHelper->getNovalnetConfig('referrer_id'))) {
             $paymentRequestData['referrer_id'] = $referrerId;
         }
-        $responseData = $this->request->all();
-        $this->paymentHelper->printValues($responseData);
-        return $this->response->redirectTo('checkout');
+        
+        $this->paymentHelper->printValues($http);
         
         $url = $this->getPaymentData($paymentKey, $paymentRequestData);
         return [
