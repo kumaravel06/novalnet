@@ -390,7 +390,7 @@ class PaymentService
             $paymentRequestData['referrer_id'] = $referrerId;
         }
         
-        $this->validateRequest();
+        return $this->response->redirectTo('checkout');
         
         $url = $this->getPaymentData($paymentKey, $paymentRequestData);
         return [
@@ -399,15 +399,6 @@ class PaymentService
         ];
     }
 
-	
-	/**
-	 * redirect to checkout
-	 * 
-	 */
-	public function validateRequest()
-	{
-		return $this->response->redirectTo('checkout');
-	}
 	
     /**
      * Get payment related param
