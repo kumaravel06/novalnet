@@ -309,7 +309,6 @@ class PaymentHelper
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($curl, CURLOPT_POST, 1);
             curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
-            curl_setopt($curl, CURLOPT_TCP_FASTOPEN, 1);
             $gateway_timeout = $this->getNovalnetConfig('novalnet_gateway_timeout');
             $curlTimeOut  = (!empty($gateway_timeout) && $gateway_timeout > 240) ? $gateway_timeout : 240;
             curl_setopt($curl, CURLOPT_TIMEOUT, $curlTimeOut);
