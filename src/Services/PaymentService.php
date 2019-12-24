@@ -32,6 +32,9 @@ use Novalnet\Models\TransactionLog;
 use Plenty\Modules\Payment\History\Contracts\PaymentHistoryRepositoryContract;
 use Plenty\Modules\Payment\History\Models\PaymentHistory as PaymentHistoryModel;
 use Plenty\Modules\Payment\Contracts\PaymentRepositoryContract;
+use Plenty\Plugin\Http\Response;
+
+
 /**
  * Class PaymentService
  *
@@ -72,6 +75,11 @@ class PaymentService
      */
     private $countryRepository;
 
+	/**
+     * @var Response
+     */
+    private $response;
+    
     /**
      * @var WebstoreHelper
      */
@@ -108,7 +116,8 @@ class PaymentService
                                 PaymentHelper $paymentHelper,
                                 PaymentHistoryRepositoryContract $paymentHistoryRepo,
                                 PaymentRepositoryContract $paymentRepository,
-                                TransactionService $transactionLogData)
+                                TransactionService $transactionLogData,
+                                Response $response)
     {
         $this->config                   = $config;
         $this->sessionStorage           = $sessionStorage;
@@ -119,6 +128,7 @@ class PaymentService
         $this->paymentRepository        = $paymentRepository;
         $this->paymentHelper            = $paymentHelper;  
         $this->transactionLogData       = $transactionLogData;
+        $this->response        			= $response;
     }
     
     /**
@@ -380,7 +390,7 @@ class PaymentService
             $paymentRequestData['referrer_id'] = $referrerId;
         }
         
-        $this->getPaymentContent('','');
+        $this->validateRequest();
         
         $url = $this->getPaymentData($paymentKey, $paymentRequestData);
         return [
@@ -388,38 +398,15 @@ class PaymentService
             'url'  => $url
         ];
     }
+
 	
 	/**
-	 * Get the payment content
-	 *
-	 * @param Basket $basket
-	 * @return string
+	 * redirect to checkout
+	 * 
 	 */
-	public function getPaymentContent(Basket $basket, $mode = 'paypal'):string
+	public validateRequest()
 	{
-	 	 
-		// Get the content of the PayPal container
-		$paymentContent = '';
-		$links = $resultJson->links;
-		if(is_array($links))
-		{
-			foreach($links as $key => $value)
-			{
-				// Get the redirect URLs for the content
-				if($value->method == 'REDIRECT')
-				{
-					$paymentContent = $value->href;
-					$this->returnType = 'redirectUrl';
-				}
-			}
-		}
-		// Check whether the content is set. Else, return an error code.
-		if(!strlen($paymentContent))
-		{
-			$this->returnType = 'errorCode';
-			return 'An unknown error occurred, please try again.';
-		}
-		return $paymentContent;
+		return $this->response->redirectTo('checkout');
 	}
 	
     /**
