@@ -32,6 +32,7 @@ use Novalnet\Models\TransactionLog;
 use Plenty\Modules\Payment\History\Contracts\PaymentHistoryRepositoryContract;
 use Plenty\Modules\Payment\History\Models\PaymentHistory as PaymentHistoryModel;
 use Plenty\Modules\Payment\Contracts\PaymentRepositoryContract;
+use Plenty\Plugin\Http\Request;
 use Plenty\Plugin\Http\Response;
 
 
@@ -76,6 +77,11 @@ class PaymentService
     private $countryRepository;
 
 	/**
+     * @var Request
+     */
+    private $request;
+    
+	/**
      * @var Response
      */
     private $response;
@@ -117,6 +123,7 @@ class PaymentService
                                 PaymentHistoryRepositoryContract $paymentHistoryRepo,
                                 PaymentRepositoryContract $paymentRepository,
                                 TransactionService $transactionLogData,
+                                Request $request,
                                 Response $response)
     {
         $this->config                   = $config;
@@ -128,6 +135,7 @@ class PaymentService
         $this->paymentRepository        = $paymentRepository;
         $this->paymentHelper            = $paymentHelper;  
         $this->transactionLogData       = $transactionLogData;
+        $this->request         			= $request;
         $this->response        			= $response;
     }
     
