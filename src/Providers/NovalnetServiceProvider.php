@@ -267,7 +267,7 @@ class NovalnetServiceProvider extends ServiceProvider
 								$content = '';
 								$contentType = 'continue';
 							}else{
-								$content = 'name is empty';
+								$content = $paymentHelper->getTranslatedText('nameEmpty');
 								$contentType = 'errorCode';
 							}
 						} elseif ($paymentKey == 'NOVALNET_CC') { # Credit Card
@@ -364,7 +364,7 @@ class NovalnetServiceProvider extends ServiceProvider
 									$sessionStorage->getPlugin()->setValue('nnPaymentData', array_merge($serverRequestData['data'], $responseData));
 									
 								}else{										
-									$content = 'name is empty';
+									$content = $paymentHelper->getTranslatedText('nameEmpty');
 									$contentType = 'errorCode';
 								}
 									} 
