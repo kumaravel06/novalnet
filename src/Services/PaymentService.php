@@ -300,11 +300,10 @@ class PaymentService
      *
      * @param Basket $basket
      * @param PaymentKey $paymentKey
-     * @param Http $http
      *
      * @return array
      */
-    public function getRequestParameters(Basket $basket, $paymentKey = '',Http $http)
+    public function getRequestParameters(Basket $basket, $paymentKey = '')
     {
         $billingAddressId = $basket->customerInvoiceAddressId;
         $address = $this->addressRepository->findAddressById($billingAddressId);
@@ -383,8 +382,6 @@ class PaymentService
         if(is_numeric($referrerId = $this->paymentHelper->getNovalnetConfig('referrer_id'))) {
             $paymentRequestData['referrer_id'] = $referrerId;
         }
-        
-        $this->paymentHelper->printValues($http);
         
         $url = $this->getPaymentData($paymentKey, $paymentRequestData);
         return [
