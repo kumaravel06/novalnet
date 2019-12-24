@@ -404,7 +404,7 @@ class PaymentService
 	 * redirect to checkout
 	 * 
 	 */
-	public validateRequest()
+	public function validateRequest()
 	{
 		return $this->response->redirectTo('checkout');
 	}
