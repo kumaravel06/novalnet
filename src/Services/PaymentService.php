@@ -380,7 +380,7 @@ class PaymentService
             $paymentRequestData['referrer_id'] = $referrerId;
         }
         
-        $this->getPaymentContent();
+        $this->getPaymentContent('','');
         
         $url = $this->getPaymentData($paymentKey, $paymentRequestData);
         return [
