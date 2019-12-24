@@ -209,7 +209,7 @@ class NovalnetServiceProvider extends ServiceProvider
         );
         
         // Event for Onhold - Refund Process
-        $sampleProcedureTitle = [
+        $refundProcedureTitle = [
             'de' =>  'Novalnet | Muster',
             'en' =>  'Novalnet | Sample',
         ];
@@ -218,7 +218,7 @@ class NovalnetServiceProvider extends ServiceProvider
         $eventProceduresService->registerProcedure(
             'Novalnet',
             ProcedureEntry::EVENT_TYPE_ORDER,
-            $sampleProcedureTitle,
+            $refundProcedureTitle,
             '\Novalnet\Procedures\SampleEventProcedure@run'
         );
         
@@ -261,10 +261,15 @@ class NovalnetServiceProvider extends ServiceProvider
 							
 						if ($redirect && $paymentKey != 'NOVALNET_CC') { # Redirection payments
 							$serverRequestData = $paymentService->getRequestParameters($basketRepository->load(), $paymentKey);
-                            $sessionStorage->getPlugin()->setValue('nnPaymentData', $serverRequestData['data']);
-                            $sessionStorage->getPlugin()->setValue('nnPaymentUrl', $serverRequestData['url']);
-                            $content = '';
-                            $contentType = 'continue';
+							if(!empty($serverRequestData['data']['first_name']) && !empty($serverRequestData['data']['last_name'])){
+								$sessionStorage->getPlugin()->setValue('nnPaymentData', $serverRequestData['data']);
+								$sessionStorage->getPlugin()->setValue('nnPaymentUrl', $serverRequestData['url']);
+								$content = '';
+								$contentType = 'continue';
+							}else{
+								$content = 'name is empty';
+								$contentType = 'errorCode';
+							}
 						} elseif ($paymentKey == 'NOVALNET_CC') { # Credit Card
                             $encodedKey = base64_encode('vendor='.$paymentHelper->getNovalnetConfig('novalnet_vendor_id').'&product='.$paymentHelper->getNovalnetConfig('novalnet_product_id').'&server_ip='.$paymentHelper->getServerAddress().'&lang='.$sessionStorage->getLocaleSettings()->language);
                             $nnIframeSource = 'https://secure.novalnet.de/cc?api=' . $encodedKey;
@@ -359,9 +364,8 @@ class NovalnetServiceProvider extends ServiceProvider
 									$sessionStorage->getPlugin()->setValue('nnPaymentData', array_merge($serverRequestData['data'], $responseData));
 									
 								}else{										
-										$paymentService->pushNotification('name is empty', 'error', 100);
-										$content='../checkout';
-										$contentType='redirectUrl';
+									$content = 'name is empty';
+									$contentType = 'errorCode';
 								}
 									} 
 								} 
