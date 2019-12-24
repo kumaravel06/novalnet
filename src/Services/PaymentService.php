@@ -380,13 +380,48 @@ class PaymentService
             $paymentRequestData['referrer_id'] = $referrerId;
         }
         
+        $this->getPaymentContent();
+        
         $url = $this->getPaymentData($paymentKey, $paymentRequestData);
         return [
             'data' => $paymentRequestData,
             'url'  => $url
         ];
     }
-
+	
+	/**
+	 * Get the payment content
+	 *
+	 * @param Basket $basket
+	 * @return string
+	 */
+	public function getPaymentContent(Basket $basket, $mode = 'paypal'):string
+	{
+	 	 
+		// Get the content of the PayPal container
+		$paymentContent = '';
+		$links = $resultJson->links;
+		if(is_array($links))
+		{
+			foreach($links as $key => $value)
+			{
+				// Get the redirect URLs for the content
+				if($value->method == 'REDIRECT')
+				{
+					$paymentContent = $value->href;
+					$this->returnType = 'redirectUrl';
+				}
+			}
+		}
+		// Check whether the content is set. Else, return an error code.
+		if(!strlen($paymentContent))
+		{
+			$this->returnType = 'errorCode';
+			return 'An unknown error occurred, please try again.';
+		}
+		return $paymentContent;
+	}
+	
     /**
      * Get payment related param
      *
