@@ -87,6 +87,7 @@ class RefundEventProcedure
 					$status = $paymentStatus->value;
 				  }	
 		}
+		$this->paymentHelper->printValues($status);
 	    if ($status == 100)   
 	    { 
 			try {
