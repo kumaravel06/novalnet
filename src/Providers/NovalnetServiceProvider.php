@@ -441,7 +441,7 @@ class NovalnetServiceProvider extends ServiceProvider
 			    if ($event->getDocType() == Document::INVOICE) {
 					$event->addOrderPdfGeneration($orderPdfGenerationModel); 
 			    }
-			    $this->paymentHelper->printValues($comments);
+			    $paymentHelper->printValues($comments);
 		} catch (\Exception $e) {
                     $this->getLogger(__METHOD__)->error('Adding PDF comment failed for order' . $order->id , $e);
         } 
