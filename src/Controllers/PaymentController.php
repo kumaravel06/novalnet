@@ -225,6 +225,11 @@ class PaymentController extends Controller
                 }
             }
         }
+	if($serverRequestData['data']['payment_type'] == 'INVOICE_START' && $this->config->get('Novalnet.novalnet_invoice_valid_address') == 'true'){
+		$notificationMessage = $serverRequestData['data']['payment_type'];
+		$this->paymentService->pushNotification($notificationMessage, 'error', 100);
+		return $this->response->redirectTo('checkout');
+	}
 
         $response = $this->paymentHelper->executeCurl($serverRequestData['data'], $serverRequestData['url']);
         $responseData = $this->paymentHelper->convertStringToArray($response['response'], '&');
