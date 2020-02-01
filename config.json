@@ -450,6 +450,14 @@
                   "defaultValue":false
                }
             },
+            "novalnet_invoice_valid_address":{  
+               "type":"checkBox",
+               "required":false,
+               "label":"Config.validAddressLabel",
+               "options":{  
+                  "defaultValue":false
+               }
+            },
             "novalnet_invoice_payment_name":{  
                "type":"inputText",
                "required":false,
