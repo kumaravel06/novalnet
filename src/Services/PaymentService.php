@@ -664,30 +664,8 @@ class PaymentService
 
             $shippingAddressId = $basket->customerShippingAddressId;
 
-            $addressValidation = false;
-            if(!empty($shippingAddressId))
-            {
-                $shippingAddress = $this->addressRepository->findAddressById($shippingAddressId);
-                $customerShippingIsoCode = strtoupper($this->countryRepository->findIsoCode($shippingAddress->countryId, 'iso_code_2'));
-
-                // Billing address
-                $billingAddress = ['street_address' => (($billingAddress->street) ? $billingAddress->street : $billingAddress->address1),
-                                   'city'           => $billingAddress->town,
-                                   'postcode'       => $billingAddress->postalCode,
-                                   'country'        => $customerBillingIsoCode,
-                                  ];
-                // Shipping address
-                $shippingAddress = ['street_address' => (($shippingAddress->street) ? $shippingAddress->street : $shippingAddress->address1),
-                                    'city'           => $shippingAddress->town,
-                                    'postcode'       => $shippingAddress->postalCode,
-                                    'country'        => $customerShippingIsoCode,
-                                   ];
-
-             }
-             else
-             {
-                 $addressValidation = true;
-             }
+            $addressValidation = $this->getAddressStatus($basket);
+            
             // Check guarantee payment
             if ((((int) $amount >= (int) $minimumAmount && in_array(
                 $customerBillingIsoCode,
@@ -696,7 +674,7 @@ class PaymentService
                  'AT',
                  'CH',
                 ]
-            ) && $basket->currency == 'EUR' && ($addressValidation || ($billingAddress === $shippingAddress)))
+            ) && $basket->currency == 'EUR' && $addressValidation)
             )) {
                 $processingType = 'guarantee';
             } elseif ($this->config->get('Novalnet.'.$paymentKeyLow.'_payment_guarantee_force_active') == 'true') {   
@@ -716,7 +694,46 @@ class PaymentService
         }//end if
         return 'normal';
     }
-    
+	
+    	/**
+	* Get address status for validation
+	*
+	* @param object $address
+	* @return Boolean
+	*/
+    public function getAddressStatus($basket)
+    {
+	$billingAddressId = $basket->customerInvoiceAddressId;
+	$billingAddress = $this->addressRepository->findAddressById($billingAddressId);
+	$customerBillingIsoCode = strtoupper($this->countryRepository->findIsoCode($billingAddress->countryId, 'iso_code_2'));
+
+	$shippingAddressId = $basket->customerShippingAddressId;
+
+	if(!empty($shippingAddressId)){
+		$shippingAddress = $this->addressRepository->findAddressById($shippingAddressId);
+		$customerShippingIsoCode = strtoupper($this->countryRepository->findIsoCode($shippingAddress->countryId, 'iso_code_2'));
+		// Billing address
+		$billingAddress = ['street_address' => (($billingAddress->street) ? $billingAddress->street : $billingAddress->address1),
+					   'city'           => $billingAddress->town,
+					   'postcode'       => $billingAddress->postalCode,
+					   'country'        => $customerBillingIsoCode,
+					  ];
+		// Shipping address
+		$shippingAddress = ['street_address' => (($shippingAddress->street) ? $shippingAddress->street : $shippingAddress->address1),
+						'city'           => $shippingAddress->town,
+						'postcode'       => $shippingAddress->postalCode,
+						'country'        => $customerShippingIsoCode,
+					   ];
+		if($billingAddress === $shippingAddress){
+			return true;
+		}
+	}
+	else{
+		 return true;
+	}
+	return false;
+    }
+	
     /**
      * Execute capture and void process
      *
