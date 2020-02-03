@@ -219,8 +219,6 @@ class NovalnetServiceProvider extends ServiceProvider
 						$paymentKey = $paymentHelper->getPaymentKeyByMop($event->getMop());	
 						$guaranteeStatus = $paymentService->getGuaranteeStatus($basketRepository->load(), $paymentKey);
 						$basket = $basketRepository->load();
-			    			$shippingAddressId = $basket->customerInvoiceAddressId;
-						$shippingAddress = $addressRepository->findAddressById($shippingAddressId);
 						$billingAddressId = $basket->customerInvoiceAddressId;
 						$address = $addressRepository->findAddressById($billingAddressId);
 			    			foreach ($address->options as $option) {
@@ -327,12 +325,16 @@ class NovalnetServiceProvider extends ServiceProvider
 												$B2B_customer  = true;
 											}
 										 }
+										 if($guaranteeStatus != 'guarantee' && !$paymentService->getAddressStatus($basket)){
+											 $processDirect = false;
+											 $content = $guaranteeStatus;
+										}
 									}
 									if ($processDirect) {
 									$content = '';
 									$contentType = 'continue';
 									$serverRequestData = $paymentService->getRequestParameters($basketRepository->load(), $paymentKey);
-									if(!empty($serverRequestData['data']['first_name']) && !empty($serverRequestData['data']['last_name']) && $paymentKey == 'NOVALNET_INVOICE' && $config->get('Novalnet.novalnet_invoice_valid_address') == 'true'){
+									if(!empty($serverRequestData['data']['first_name']) && !empty($serverRequestData['data']['last_name'])){
 										if( $B2B_customer) {
 											$serverRequestData['data']['payment_type'] = 'GUARANTEED_INVOICE';
 											$serverRequestData['data']['key'] = '41';
@@ -353,8 +355,6 @@ class NovalnetServiceProvider extends ServiceProvider
 									$sessionStorage->getPlugin()->setValue('nnPaymentData', array_merge($serverRequestData['data'], $responseData));
 									
 								}else{
-									$paymentHelper->printValues($shippingAddress);
-									$paymentHelper->printValues($address);
 									$content = $paymentHelper->getTranslatedText('nameEmpty');
 									$contentType = 'errorCode';
 								}
