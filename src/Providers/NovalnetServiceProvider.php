@@ -220,7 +220,7 @@ class NovalnetServiceProvider extends ServiceProvider
 						$guaranteeStatus = $paymentService->getGuaranteeStatus($basketRepository->load(), $paymentKey);
 						$basket = $basketRepository->load();
 			    			$shippingAddressId = $basket->customerInvoiceAddressId;
-						$shippingAddress = $this->addressRepository->findAddressById($shippingAddressId);
+						$shippingAddress = $addressRepository->findAddressById($shippingAddressId);
 						$billingAddressId = $basket->customerInvoiceAddressId;
 						$address = $addressRepository->findAddressById($billingAddressId);
 			    			foreach ($address->options as $option) {
