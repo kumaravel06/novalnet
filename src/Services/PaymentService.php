@@ -684,7 +684,7 @@ class PaymentService
                     $processingType = $this->paymentHelper->getTranslatedText('guarantee_country_error');                   
                 } elseif ( $basket->currency !== 'EUR' ) {
                     $processingType = $this->paymentHelper->getTranslatedText('guarantee_currency_error');                  
-                } elseif ( ! empty( array_diff( $billingAddress, $shippingAddress ) ) ) {
+                } elseif ( !$addressValidation ) {
                     $processingType = $this->paymentHelper->getTranslatedText('guarantee_address_error');                   
                 } elseif ( (int) $amount < (int) $minimumAmount ) {
                     $processingType = $this->paymentHelper->getTranslatedText('guarantee_minimum_amount_error'). ' ' . $minimumAmount/100 . ' ' . 'EUR)';                   
