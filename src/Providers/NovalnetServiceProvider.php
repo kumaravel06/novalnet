@@ -325,7 +325,7 @@ class NovalnetServiceProvider extends ServiceProvider
 												$B2B_customer  = true;
 											}
 										 }
-										 if($guaranteeStatus != 'guarantee' && $config->get('novalnet_invoice_valid_address')){
+										 if($guaranteeStatus != 'guarantee' && $config->get('Novalnet.novalnet_invoice_valid_address')){
 											 $processDirect = $paymentService->getAddressStatus($basket);
 											 $contentType = 'errorCode';
 											 $content = $paymentHelper->getTranslatedText('guarantee_address_error');
