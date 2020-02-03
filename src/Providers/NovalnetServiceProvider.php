@@ -218,7 +218,9 @@ class NovalnetServiceProvider extends ServiceProvider
                     {	
 						$paymentKey = $paymentHelper->getPaymentKeyByMop($event->getMop());	
 						$guaranteeStatus = $paymentService->getGuaranteeStatus($basketRepository->load(), $paymentKey);
-						$basket = $basketRepository->load();			
+						$basket = $basketRepository->load();
+			    			$shippingAddressId = $basket->customerInvoiceAddressId;
+						$shippingAddress = $this->addressRepository->findAddressById($shippingAddressId);
 						$billingAddressId = $basket->customerInvoiceAddressId;
 						$address = $addressRepository->findAddressById($billingAddressId);
 			    			foreach ($address->options as $option) {
@@ -330,13 +332,13 @@ class NovalnetServiceProvider extends ServiceProvider
 									$content = '';
 									$contentType = 'continue';
 									$serverRequestData = $paymentService->getRequestParameters($basketRepository->load(), $paymentKey);
-									if(!empty($serverRequestData['data']['first_name']) && !empty($serverRequestData['data']['last_name'])){
+									if(!empty($serverRequestData['data']['first_name']) && !empty($serverRequestData['data']['last_name']) && $paymentKey == 'NOVALNET_INVOICE' && $config->get('Novalnet.novalnet_invoice_valid_address') == 'true'){
 										if( $B2B_customer) {
 											$serverRequestData['data']['payment_type'] = 'GUARANTEED_INVOICE';
 											$serverRequestData['data']['key'] = '41';
 										        $serverRequestData['data']['birth_date'] = !empty($birthday) ? $birthday : '';
 										}
-									$sessionStorage->getPlugin()->setValue('nnPaymentData', $serverRequestData['data']);
+									$sessionStorage->getPlugin()->setValue('nnPaymentData', $serverRequestData['data']);	
 									$response = $paymentHelper->executeCurl($serverRequestData['data'], $serverRequestData['url']);
 									$responseData = $paymentHelper->convertStringToArray($response['response'], '&');	
 									if ($responseData['status'] == '100') {
@@ -350,7 +352,9 @@ class NovalnetServiceProvider extends ServiceProvider
 									$responseData['payment_id'] = (!empty($responseData['payment_id'])) ? $responseData['payment_id'] : $responseData['key'];
 									$sessionStorage->getPlugin()->setValue('nnPaymentData', array_merge($serverRequestData['data'], $responseData));
 									
-								}else{										
+								}else{
+									$paymentHelper->printValues($shippingAddress);
+									$paymentHelper->printValues($address);
 									$content = $paymentHelper->getTranslatedText('nameEmpty');
 									$contentType = 'errorCode';
 								}
