@@ -225,11 +225,6 @@ class PaymentController extends Controller
                 }
             }
         }
-	if($requestData['paymentKey'] == 'NOVALNET_INVOICE' && $this->config->get('Novalnet.novalnet_invoice_valid_address') == 'true'){
-		$notificationMessage = $serverRequestData['data']['payment_type'];
-		$this->paymentService->pushNotification($notificationMessage, 'error', 100);
-		return $this->response->redirectTo('checkout');
-	}
 
         $response = $this->paymentHelper->executeCurl($serverRequestData['data'], $serverRequestData['url']);
         $responseData = $this->paymentHelper->convertStringToArray($response['response'], '&');
