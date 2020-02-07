@@ -412,11 +412,13 @@ class NovalnetServiceProvider extends ServiceProvider
 		}
 		$paymentKey = $paymentHelper->getPaymentKeyByMop($payments[0]->mopId);
         $db_details = $paymentService->getDatabaseValues($order->id);
+		    
         
 		if (in_array($paymentKey, ['NOVALNET_INVOICE', 'NOVALNET_PREPAYMENT', 'NOVALNET_CC', 'NOVALNET_SEPA', 'NOVALNET_CASHPAYMENT', 'NOVALNET_SOFORT', 'NOVALNET_IDEAL', 'NOVALNET_EPS', 'NOVALNET_GIROPAY', 'NOVALNET_PAYPAL', 'NOVALNET_PRZELEWY']) && !empty($db_details['plugin_version'])
 		) {
 		try {
 				$bank_details = array_merge($db_details, json_decode($db_details['comments'], true));
+			$this->getLogger(__METHOD__)->error('invoice', $bank_details);
 				$comments = '';
 				$comments .= PHP_EOL . $paymentHelper->getTranslatedText('nn_tid') . $db_details['tid'];
 				if(!empty($db_details['test_mode'])) {
