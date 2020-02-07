@@ -795,6 +795,7 @@ class PaymentService
             $transactionComments .= PHP_EOL . sprintf($this->paymentHelper->getTranslatedText('transaction_cancel', $paymentRequestData['lang']), date('d.m.Y'), date('H:i:s'));
         }
              if (($responseData['tid_status'] == '100' && $key == '27') || $responseData['tid_status'] != '100') {
+		      $this->getLogger(__METHOD__)->error('entry', 'enter'); 
              $paymentData['paid_amount'] = 0;
              }
              $paymentData['booking_text'] = $transactionComments;  
@@ -802,6 +803,7 @@ class PaymentService
 	     $this->getLogger(__METHOD__)->error('docapture', $paymentData);
              $this->getLogger(__METHOD__)->error('amount', $order->amounts[0]->invoiceTotal); 
 	$this->getLogger(__METHOD__)->error('order', $order); 
+		 $this->getLogger(__METHOD__)->error('key', $key); 
              $this->paymentHelper->createPlentyPayment($paymentData);
          } else {
                $error = $this->paymentHelper->getNovalnetStatusText($responseData);
