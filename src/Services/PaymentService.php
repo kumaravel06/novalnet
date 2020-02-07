@@ -799,6 +799,9 @@ class PaymentService
              }
              $paymentData['booking_text'] = $transactionComments;  
              $this->paymentHelper->updatePayments($tid, $responseData['tid_status'], $order->id);
+	     $this->getLogger(__METHOD__)->error('docapture', $paymentData);
+             $this->getLogger(__METHOD__)->error('amount', $order->amounts[0]->invoiceTotal); 
+	$this->getLogger(__METHOD__)->error('order', $order); 
              $this->paymentHelper->createPlentyPayment($paymentData);
          } else {
                $error = $this->paymentHelper->getNovalnetStatusText($responseData);
