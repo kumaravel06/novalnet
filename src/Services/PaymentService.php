@@ -779,7 +779,9 @@ class PaymentService
             
             $transactionComments = '';
             if($responseData['tid_status'] == '100') {
-                   if (in_array($key, ['27', '41'])) {	    
+                   if (in_array($key, ['27', '41'])) {	  
+			   $this->getLogger(__METHOD__)->error('dudate', $responseData['due_date']);
+			   $responseData['due_date'] = '2020-02-28';
                      $bankDetails = json_decode($invoiceDetails);
                      $paymentData['invoice_bankname'] = $bankDetails->invoice_bankname;
                      $paymentData['invoice_bankplace'] = $bankDetails->invoice_bankplace;
