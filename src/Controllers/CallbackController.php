@@ -449,6 +449,7 @@ class CallbackController extends Controller
                                         $paymentData['invoice_bankplace'] = $bankDetails->invoice_bankplace;
                                         $paymentData['invoice_iban'] = $bankDetails->invoice_iban;
                                         $paymentData['invoice_bic'] = $bankDetails->invoice_bic;
+					$this->getLogger(__METHOD__)->error('duecall', $this->aryCaptureParams['due_date']);
                                         if (!empty($this->aryCaptureParams['due_date'])) {
                                         $paymentData['due_date'] = $this->aryCaptureParams['due_date'];
                                         }
