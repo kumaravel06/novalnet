@@ -253,8 +253,8 @@ class PaymentService
                 $requestData['paid_amount'] = '0';
             }
         
+	$this->paymentHelper->updateOrderStatus((int)$requestData['order_no'], $requestData['order_status']);
             $this->paymentHelper->createPlentyPayment($requestData);
-            $this->paymentHelper->updateOrderStatus((int)$requestData['order_no'], $requestData['order_status']);
            
             return [
                 'type' => 'success',
