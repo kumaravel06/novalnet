@@ -312,8 +312,8 @@ class PaymentService
             $shippingAddress = $this->addressRepository->findAddressById($basket->customerShippingAddressId);
         }
     
-	$this->paymentHelper->printValues($address->toArray());
-	$this->paymentHelper->printValues($shippingAddress->toArray());
+	$this->paymentHelper->printValues($address);
+	$this->paymentHelper->printValues($shippingAddress);
 	    
         foreach ($address->options as $option) {
         if ($option->typeId == 12) {
