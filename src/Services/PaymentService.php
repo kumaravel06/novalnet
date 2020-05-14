@@ -306,13 +306,15 @@ class PaymentService
      */
     public function getRequestParameters(Basket $basket, $paymentKey = '')
     {
-        $billingAddressId = $basket->customerInvoiceAddressId;
-	$this->paymentHelper->printValues($basket);
+        $billingAddressId = $basket->customerInvoiceAddressId;	
         $address = $this->addressRepository->findAddressById($billingAddressId);
         if(!empty($basket->customerShippingAddressId)){
             $shippingAddress = $this->addressRepository->findAddressById($basket->customerShippingAddressId);
         }
     
+	$this->paymentHelper->printValues($address);
+	    $this->paymentHelper->printValues($shippingAddress);
+	    
         foreach ($address->options as $option) {
         if ($option->typeId == 12) {
                 $name = $option->value;
