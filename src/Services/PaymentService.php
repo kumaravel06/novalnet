@@ -303,7 +303,7 @@ class PaymentService
      *
      * @return string
      */
-    protected function getBirthDay(Address $addressObj): string
+    protected function getBirthDay(Address $addressObj)
     {
         if (!$addressObj->birthday) {
             return '1970-01-01';
