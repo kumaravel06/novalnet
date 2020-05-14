@@ -305,6 +305,7 @@ class PaymentService
      */
     protected function getBirthDay(Address $addressObj)
     {
+	    $this->paymentHelper->printValues($addressObj);
         if (!$addressObj->birthday) {
             return '1970-01-01';
         }
