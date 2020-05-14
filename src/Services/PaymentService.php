@@ -33,6 +33,7 @@ use Plenty\Modules\Payment\History\Contracts\PaymentHistoryRepositoryContract;
 use Plenty\Modules\Payment\History\Models\PaymentHistory as PaymentHistoryModel;
 use Plenty\Modules\Payment\Contracts\PaymentRepositoryContract;
 use Plenty\Plugin\Http;
+use Plenty\Modules\Account\Address\Models\Address;
 
 
 /**
@@ -295,7 +296,22 @@ class PaymentService
     $comments .= PHP_EOL;
     return $comments;
     }
+	
+	
+	/**
+     * @param Address $addressObj
+     *
+     * @return string
+     */
+    protected function getBirthDay(Address $addressObj): string
+    {
+        if (!$addressObj->birthday) {
+            return '1970-01-01';
+        }
 
+        return date('Y-m-d', $addressObj->birthday);
+    }
+	
     /**
      * Build Novalnet server request parameters
      *
@@ -311,9 +327,9 @@ class PaymentService
         if(!empty($basket->customerShippingAddressId)){
             $shippingAddress = $this->addressRepository->findAddressById($basket->customerShippingAddressId);
         }
-    
-	$this->paymentHelper->printValues($address);
-	$this->paymentHelper->printValues($shippingAddress);
+ 
+	$this->paymentHelper->printValues($this->getBirthDay($address));
+	$this->paymentHelper->printValues($this->getBirthDay($shippingAddress));
 	    
         foreach ($address->options as $option) {
         if ($option->typeId == 12) {
